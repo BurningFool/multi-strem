@@ -22,9 +22,17 @@ RUN chmod 0700 /startup.sh
 RUN rm -rf /nginx*
 
 RUN dnf -y remove *-devel git make gcc
- 
+
+RUN ln -sf /dev/stdout /opt/nginx/logs/access.log &&\
+    ln -sf /dev/stderr /opt/nginx/logs/error.log
+
 EXPOSE 8080/tcp
 
 EXPOSE 1935/tcp
 
 RUN rm -rf /var/cache/dnf /var/log/dnf.log
+
+CMD /startup.sh
+
+ENTRYPOINT /startup.sh
+
